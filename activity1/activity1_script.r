@@ -22,3 +22,16 @@ b <- c(2446,40,10000)
 b/2
 
 ### QUESTION 3 ###
+
+# create a vector of 4 numbers
+fourvect <- c(2,4,6,8)
+# square all of these numbers
+fourvect^2
+
+# multiply 3 by 4 and then divide by 2
+(3 * 4) / 2
+
+# create a vector of 6 numbers
+sixvect <- c(3,6,9,12,15,19)
+# divide all of these numbers by 3
+sixvect / 3
