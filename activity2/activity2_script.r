@@ -1,3 +1,6 @@
+# questions are labeled with ### QUESTION [NUMBER] ###
+# e.g. ### QUESTION 1 ###
+
 ### VECTORS ###
 
 # make a vector of tree heights in meters
@@ -53,6 +56,28 @@ datW$dateF <- as.Date(datW$DATE, "%Y-%m-%d")
 #and indicating that it should be treated as numeric data
 datW$year <- as.numeric(format(datW$dateF,"%Y"))
 
+### QUESTION 2 ###
+
+# create character data vector
+cvect <- as.character(c("this", "is", "a", "character", "vector"))
+# check if it's a character vector
+is.character(cvect)
+
+# create numeric data vector
+nvect <- as.numeric(c(1,2,3,4,5))
+# check if it's numeric
+is.numeric(nvect)
+
+# create integer data vector
+intvect <- as.integer(c(1,2,3,4,5))
+# check if it's integer
+is.integer(intvect)
+
+# create factor data vector
+fvect <- as.factor(c("this", "is", "a", "factor", "vector"))
+# check if it's a factor
+is.factor(fvect)
+
 ### DESCRIPTIVE STATISTICS AND HISTOGRAMS ###
 
 #find out all unique site names
@@ -98,6 +123,6 @@ hist(datW$TAVE[datW$siteN == 1],
      col="grey50",
      border="white")
 
-# help for arguments in hist function
+# Q3: help for arguments in hist function
 help(hist)
 help(paste)
