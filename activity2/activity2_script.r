@@ -123,6 +123,7 @@ hist(datW$TAVE[datW$siteN == 1],
      col="grey50",
      border="white")
 
-# Q3: help for arguments in hist function
+### QUESTION 3 ### 
+# help for arguments in hist function
 help(hist)
 help(paste)
