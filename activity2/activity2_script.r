@@ -1,3 +1,5 @@
+### VECTORS ###
+
 # make a vector of tree heights in meters
 heights <- c(30,41,20,22)
 # convert to cm
@@ -9,6 +11,8 @@ heights[1]
 
 # look at the 2nd and 3rd tree heights
 heights[2:3]
+
+### MATRICES ###
 
 # get more info on the matrix function
 help(matrix)
@@ -32,8 +36,19 @@ Mat.bycol[1,]
 # look at all values in column 2
 Mat.bycol[,2]
 
+### DATAFRAMES ###
+
 # read in weather station file from the data folder
-datW <- read.csv("y:\\Students\\hkropp\\a02\\2011124.csv")
+datW <- read.csv("y:\\Students\\mfesta\\a02\\2011124.csv")
 
 # get more information about the dataframe
 str(datW)
+
+#specify a column with a proper date format
+#note the format here dataframe$column
+datW$dateF <- as.Date(datW$DATE, "%Y-%m-%d")
+#google date formatting in r to find more options and learn more
+
+#create a date column by reformatting the date to only include years
+#and indicating that it should be treated as numeric data
+datW$year <- as.numeric(format(datW$dateF,"%Y"))
