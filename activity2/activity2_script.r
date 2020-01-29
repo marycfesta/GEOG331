@@ -29,5 +29,11 @@ Mat.bycol[1,2]
 # Look at all values in row 1
 Mat.bycol[1,]
 
-#look at all values in column 2
+# look at all values in column 2
 Mat.bycol[,2]
+
+# read in weather station file from the data folder
+datW <- read.csv("y:\\Students\\hkropp\\a02\\2011124.csv")
+
+# get more information about the dataframe
+str(datW)
