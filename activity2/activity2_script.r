@@ -42,7 +42,8 @@ Mat.bycol[,2]
 ### DATAFRAMES ###
 
 # read in weather station file from the data folder
-datW <- read.csv("y:\\Students\\mfesta\\a02\\2011124.csv")
+#datW <- read.csv("y:\\Students\\mfesta\\a02\\2011124.csv")
+datW <- read.csv("/Users/maryfesta/Documents/Colgate/Academics/Environmental Data Science/GEOG331/activity2/a02/2011124.csv")
 
 # get more information about the dataframe
 str(datW)
@@ -129,6 +130,9 @@ help(hist)
 help(paste)
 # end q3
 
+#add all histograms into the same window
+par(mfrow=c(2,2))
+
 #make a histogram for the first site in our levels, Aberdeen
 #main= is the title name argument.
 #Here you want to paste the actual name of the factor not the numeric index
@@ -154,6 +158,85 @@ abline(v = mean(datW$TAVE[datW$siteN == 1],na.rm=TRUE) - sd(datW$TAVE[datW$siteN
 #add standard deviation line above the mean with red (tomato3) color
 #and thickness of 3
 abline(v = mean(datW$TAVE[datW$siteN == 1],na.rm=TRUE) + sd(datW$TAVE[datW$siteN == 1],na.rm=TRUE), 
+       col = "tomato3", 
+       lty = 3,
+       lwd = 3)
+
+### QUESTION 4 ###
+#make a histogram for the second site in our levels, Livermore
+hist(datW$TAVE[datW$siteN == 2],
+     freq=FALSE, 
+     main = paste(levels(datW$NAME)[2]),
+     xlab = "Average daily temperature (degrees C)", 
+     ylab="Relative frequency",
+     col="grey50",
+     border="white")
+#add mean line with red (tomato3) color
+#and thickness of 3
+abline(v = mean(datW$TAVE[datW$siteN == 2],na.rm=TRUE), 
+       col = "tomato3",
+       lwd = 3)
+#add standard deviation line below the mean with red (tomato3) color
+#and thickness of 3
+abline(v = mean(datW$TAVE[datW$siteN == 2],na.rm=TRUE) - sd(datW$TAVE[datW$siteN == 2],na.rm=TRUE), 
+       col = "tomato3", 
+       lty = 3,
+       lwd = 3)
+#add standard deviation line above the mean with red (tomato3) color
+#and thickness of 3
+abline(v = mean(datW$TAVE[datW$siteN == 2],na.rm=TRUE) + sd(datW$TAVE[datW$siteN == 2],na.rm=TRUE), 
+       col = "tomato3", 
+       lty = 3,
+       lwd = 3)
+
+#make a histogram for the third site in our levels, Mandan Experiment Station
+hist(datW$TAVE[datW$siteN == 3],
+     freq=FALSE, 
+     main = paste(levels(datW$NAME)[3]),
+     xlab = "Average daily temperature (degrees C)", 
+     ylab="Relative frequency",
+     col="grey50",
+     border="white")
+#add mean line with red (tomato3) color
+#and thickness of 3
+abline(v = mean(datW$TAVE[datW$siteN == 3],na.rm=TRUE), 
+       col = "tomato3",
+       lwd = 3)
+#add standard deviation line below the mean with red (tomato3) color
+#and thickness of 3
+abline(v = mean(datW$TAVE[datW$siteN == 3],na.rm=TRUE) - sd(datW$TAVE[datW$siteN == 3],na.rm=TRUE), 
+       col = "tomato3", 
+       lty = 3,
+       lwd = 3)
+#add standard deviation line above the mean with red (tomato3) color
+#and thickness of 3
+abline(v = mean(datW$TAVE[datW$siteN == 3],na.rm=TRUE) + sd(datW$TAVE[datW$siteN == 3],na.rm=TRUE), 
+       col = "tomato3", 
+       lty = 3,
+       lwd = 3)
+
+#make a histogram for the fourth site in our levels, Mormon Flat
+hist(datW$TAVE[datW$siteN == 4],
+     freq=FALSE, 
+     main = paste(levels(datW$NAME)[4]),
+     xlab = "Average daily temperature (degrees C)", 
+     ylab="Relative frequency",
+     col="grey50",
+     border="white")
+#add mean line with red (tomato3) color
+#and thickness of 3
+abline(v = mean(datW$TAVE[datW$siteN == 4],na.rm=TRUE), 
+       col = "tomato3",
+       lwd = 3)
+#add standard deviation line below the mean with red (tomato3) color
+#and thickness of 3
+abline(v = mean(datW$TAVE[datW$siteN == 4],na.rm=TRUE) - sd(datW$TAVE[datW$siteN == 4],na.rm=TRUE), 
+       col = "tomato3", 
+       lty = 3,
+       lwd = 3)
+#add standard deviation line above the mean with red (tomato3) color
+#and thickness of 3
+abline(v = mean(datW$TAVE[datW$siteN == 4],na.rm=TRUE) + sd(datW$TAVE[datW$siteN == 4],na.rm=TRUE), 
        col = "tomato3", 
        lty = 3,
        lwd = 3)
