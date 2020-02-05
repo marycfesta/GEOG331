@@ -403,3 +403,48 @@ highThresh <- qnorm(0.95,
           sd(datW$TAVE[datW$siteN == 1],na.rm=TRUE))
 # end q6
 
+### QUESTION 7 ###
+
+#look at the mean precipitation for Aberdeen
+mean(datW$PRCP[datW$NAME == "ABERDEEN, WA US"], na.rm=TRUE)
+
+#get the mean for precipitation across all sites
+averagePrcp <- aggregate(datW$PRCP, by=list(datW$NAME), FUN="mean",na.rm=TRUE)
+
+# histogram of daily precipitation for Aberdeen
+hist(datW$PRCP[datW$siteN == 1],
+     freq=FALSE, 
+     main = paste(levels(datW$NAME)[1]),
+     xlab = "Average precipitation (inches)", 
+     ylab="Relative frequency",
+     col="grey50",
+     border="white")
+#add mean line with red (tomato3) color
+#and thickness of 3
+abline(v = mean(datW$PRCP[datW$siteN == 1],na.rm=TRUE), 
+       col = "tomato3",
+       lwd = 3)
+#add standard deviation line below the mean with red (tomato3) color
+#and thickness of 3
+abline(v = mean(datW$PRCP[datW$siteN == 1],na.rm=TRUE) - sd(datW$PRCP[datW$siteN == 1],na.rm=TRUE), 
+       col = "tomato3", 
+       lty = 3,
+       lwd = 3)
+#add standard deviation line above the mean with red (tomato3) color
+#and thickness of 3
+abline(v = mean(datW$PRCP[datW$siteN == 1],na.rm=TRUE) + sd(datW$PRCP[datW$siteN == 1],na.rm=TRUE), 
+       col = "tomato3", 
+       lty = 3,
+       lwd = 3)
+# end q7
+
+### QUESTION 8 ###
+
+
+
+# end q8
+
+### QUESTION 9 ###
+
+
+# end q9
