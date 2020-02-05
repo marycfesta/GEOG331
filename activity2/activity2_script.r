@@ -361,4 +361,45 @@ points(x.plot,
 
 help(dnorm)
 
+#pnorm(value to evaluate at (note this will evaluate for all values and below),mean, standard deviation)
+pnorm(0,
+      mean(datW$TAVE[datW$siteN == 1],na.rm=TRUE),
+      sd(datW$TAVE[datW$siteN == 1],na.rm=TRUE))
+
+#pnorm with 5 gives me all probability (area of the curve) below 5 
+pnorm(5,
+      mean(datW$TAVE[datW$siteN == 1],na.rm=TRUE),
+      sd(datW$TAVE[datW$siteN == 1],na.rm=TRUE))
+
+#pnorm with 5 gives me all probability (area of the curve) below 5 
+#subtracting area below 0 gives the probability of temperatures in the range 0-5
+pnorm(5,
+      mean(datW$TAVE[datW$siteN == 1],na.rm=TRUE),
+      sd(datW$TAVE[datW$siteN == 1],na.rm=TRUE))- pnorm(0,
+        mean(datW$TAVE[datW$siteN == 1],na.rm=TRUE),
+        sd(datW$TAVE[datW$siteN == 1],na.rm=TRUE))
+
+#pnorm of 20 gives me all probability (area of the curve) below 20 
+#subtracting from one leaves me with the area above 20
+1 - pnorm(20,
+          mean(datW$TAVE[datW$siteN == 1],na.rm=TRUE),
+          sd(datW$TAVE[datW$siteN == 1],na.rm=TRUE))
+
+#qnorm returns the value associated with a probability
+qnorm(0.95,
+      mean(datW$TAVE[datW$siteN == 1],na.rm=TRUE),
+      sd(datW$TAVE[datW$siteN == 1],na.rm=TRUE))
+
+### QUESTION 6 ###
+# determine what unusually high temperatures in Aberdeen would start at
+# if the mean were to increase by 4 degrees with the same standard deviation
+highThresh <- qnorm(0.95,
+              mean(datW$TAVE[datW$siteN == 1],na.rm=TRUE),
+              sd(datW$TAVE[datW$siteN == 1],na.rm=TRUE))
+
+# probability of getting the previously calculated temperature
+1 - pnorm(highThresh,
+          mean(datW$TAVE[datW$siteN == 1],na.rm=TRUE)+4,
+          sd(datW$TAVE[datW$siteN == 1],na.rm=TRUE))
+# end q6
 
