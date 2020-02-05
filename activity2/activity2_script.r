@@ -42,8 +42,9 @@ Mat.bycol[,2]
 ### DATAFRAMES ###
 
 # read in weather station file from the data folder
-#datW <- read.csv("y:\\Students\\mfesta\\a02\\2011124.csv")
-datW <- read.csv("/Users/maryfesta/Documents/Colgate/Academics/Environmental Data Science/GEOG331/activity2/a02/2011124.csv")
+datW <- read.csv("y:\\Students\\mfesta\\a02\\2011124.csv")
+#change back to original filepath to submit
+#datW <- read.csv("/Users/maryfesta/Documents/Colgate/Academics/Environmental Data Science/GEOG331/activity2/a02/2011124.csv")
 
 # get more information about the dataframe
 str(datW)
