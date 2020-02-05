@@ -498,6 +498,17 @@ points(x.plot,
 # end q8
 
 ### QUESTION 9 ###
+#mean annual precipitations
+mean(lvl1,na.rm=TRUE)
+mean(lvl2,na.rm=TRUE)
+mean(lvl3,na.rm=TRUE)
+mean(lvl4,na.rm=TRUE)
+mean(lvl5,na.rm=TRUE)
 
-
+#mean average temperatures
+mean(datW$TAVE[datW$siteN == 1],na.rm=TRUE)
+mean(datW$TAVE[datW$siteN == 2],na.rm=TRUE)
+mean(datW$TAVE[datW$siteN == 3],na.rm=TRUE)
+mean(datW$TAVE[datW$siteN == 4],na.rm=TRUE)
+mean(datW$TAVE[datW$siteN == 5],na.rm=TRUE)
 # end q9
