@@ -278,7 +278,7 @@ points(x.plot,
 
 ### QUESTION 5 ###
 #make a histogram for the second site in our levels, Livermore
-h1 <- hist(datW$TAVE[datW$siteN == 2],
+h2 <- hist(datW$TAVE[datW$siteN == 2],
            freq=FALSE, 
            main = paste(levels(datW$NAME)[2]),
            xlab = "Average daily temperature (degrees C)", 
@@ -286,14 +286,14 @@ h1 <- hist(datW$TAVE[datW$siteN == 2],
            col="grey50",
            border="white")
 #the seq function generates a sequence of numbers that we can use to plot the normal across the range of temperature values
-x.plot <- seq(-10,30, length.out = 100)
+x.plot <- seq(-10,35, length.out = 100)
 #the dnorm function will produce the probability density based on a mean and standard deviation.
 
-y.plot <-  dnorm(seq(-10,30, length.out = 100),
+y.plot <-  dnorm(seq(-10,35, length.out = 100),
                  mean(datW$TAVE[datW$siteN == 2],na.rm=TRUE),
                  sd(datW$TAVE[datW$siteN == 2],na.rm=TRUE))
 #create a density that is scaled to fit in the plot  since the density has a different range from the data density.
-y.scaled <- (max(h1$density)/max(y.plot)) * y.plot
+y.scaled <- (max(h2$density)/max(y.plot)) * y.plot
 
 #points function adds points or lines to a graph  
 #the first two arguments are the x coordinates and the y coordinates.
@@ -305,7 +305,7 @@ points(x.plot,
        lty = 2)
 
 #make a histogram for the third site in our levels, Mandan Experiment Station
-h1 <- hist(datW$TAVE[datW$siteN == 3],
+h3 <- hist(datW$TAVE[datW$siteN == 3],
            freq=FALSE, 
            main = paste(levels(datW$NAME)[3]),
            xlab = "Average daily temperature (degrees C)", 
@@ -313,14 +313,14 @@ h1 <- hist(datW$TAVE[datW$siteN == 3],
            col="grey50",
            border="white")
 #the seq function generates a sequence of numbers that we can use to plot the normal across the range of temperature values
-x.plot <- seq(-10,30, length.out = 100)
+x.plot <- seq(-40,40, length.out = 100)
 #the dnorm function will produce the probability density based on a mean and standard deviation.
 
-y.plot <-  dnorm(seq(-10,30, length.out = 100),
+y.plot <-  dnorm(seq(-40,40, length.out = 100),
                  mean(datW$TAVE[datW$siteN == 3],na.rm=TRUE),
                  sd(datW$TAVE[datW$siteN == 3],na.rm=TRUE))
 #create a density that is scaled to fit in the plot  since the density has a different range from the data density.
-y.scaled <- (max(h1$density)/max(y.plot)) * y.plot
+y.scaled <- (max(h3$density)/max(y.plot)) * y.plot
 
 #points function adds points or lines to a graph  
 #the first two arguments are the x coordinates and the y coordinates.
@@ -332,7 +332,7 @@ points(x.plot,
        lty = 2)
 
 #make a histogram for the fourth site in our levels, 
-h1 <- hist(datW$TAVE[datW$siteN == 4],
+h4 <- hist(datW$TAVE[datW$siteN == 4],
            freq=FALSE, 
            main = paste(levels(datW$NAME)[4]),
            xlab = "Average daily temperature (degrees C)", 
@@ -340,14 +340,14 @@ h1 <- hist(datW$TAVE[datW$siteN == 4],
            col="grey50",
            border="white")
 #the seq function generates a sequence of numbers that we can use to plot the normal across the range of temperature values
-x.plot <- seq(-10,30, length.out = 100)
+x.plot <- seq(0,40, length.out = 100)
 #the dnorm function will produce the probability density based on a mean and standard deviation.
 
-y.plot <-  dnorm(seq(-10,30, length.out = 100),
+y.plot <-  dnorm(seq(0,40, length.out = 100),
                  mean(datW$TAVE[datW$siteN == 4],na.rm=TRUE),
                  sd(datW$TAVE[datW$siteN == 4],na.rm=TRUE))
 #create a density that is scaled to fit in the plot  since the density has a different range from the data density.
-y.scaled <- (max(h1$density)/max(y.plot)) * y.plot
+y.scaled <- (max(h4$density)/max(y.plot)) * y.plot
 
 #points function adds points or lines to a graph  
 #the first two arguments are the x coordinates and the y coordinates.
@@ -440,8 +440,61 @@ abline(v = mean(datW$PRCP[datW$siteN == 1],na.rm=TRUE) + sd(datW$PRCP[datW$siteN
 
 ### QUESTION 8 ###
 
+# get precipitation for each year and site in the data
+prcpYearSite <- aggregate(datW$PRCP, by=list(datW$NAME, datW$year), FUN="sum",na.rm=TRUE)
+prcpYearSite$siteN <- as.numeric(prcpYearSite$Group.1)
 
+# precipitation by each level (aka each site)
+lvl1 <- prcpYearSite$x[prcpYearSite$siteN == 1]
+lvl2 <- prcpYearSite$x[prcpYearSite$siteN == 2]
+lvl3 <- prcpYearSite$x[prcpYearSite$siteN == 3]
+lvl4 <- prcpYearSite$x[prcpYearSite$siteN == 4]
+lvl5 <- prcpYearSite$x[prcpYearSite$siteN == 5]
 
+# make a histogram of annual precipitation for Aberdeen
+hprcp <- hist(lvl1,
+     freq=FALSE, 
+     main = paste(levels(datW$NAME)[1]),
+     xlab = "Average precipitation (inches)", 
+     ylab="Relative frequency",
+     col="grey50",
+     border="white")
+#add mean line with red (tomato3) color
+#and thickness of 3
+abline(v = mean(lvl1,na.rm=TRUE),
+       col = "tomato3",
+       lwd = 3)
+#add standard deviation line below the mean with red (tomato3) color
+#and thickness of 3
+abline(v = mean(lvl1,na.rm=TRUE) - sd(lvl1,na.rm=TRUE),
+       col = "tomato3",
+       lty = 3,
+       lwd = 3)
+#add standard deviation line above the mean with red (tomato3) color
+#and thickness of 3
+abline(v = mean(lvl1,na.rm=TRUE) + sd(lvl1,na.rm=TRUE),
+       col = "tomato3",
+       lty = 3,
+       lwd = 3)
+
+#the seq function generates a sequence of numbers that we can use to plot the normal across the range of temperature values
+x.plot <- seq(1000,3000, length.out = 100)
+#the dnorm function will produce the probability density based on a mean and standard deviation.
+
+y.plot <-  dnorm(seq(1000,3000, length.out = 100),
+                 mean(lvl1,na.rm=TRUE),
+                 sd(lvl1,na.rm=TRUE))
+#create a density that is scaled to fit in the plot  since the density has a different range from the data density.
+y.scaled <- (max(hprcp$density)/max(y.plot)) * y.plot
+
+#points function adds points or lines to a graph  
+#the first two arguments are the x coordinates and the y coordinates.
+points(x.plot,
+       y.scaled, 
+       type = "l", 
+       col = "royalblue3",
+       lwd = 4, 
+       lty = 2)
 # end q8
 
 ### QUESTION 9 ###
