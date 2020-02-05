@@ -170,7 +170,7 @@ hist(datW$TAVE[datW$siteN == 2],
      main = paste(levels(datW$NAME)[2]),
      xlab = "Average daily temperature (degrees C)", 
      ylab="Relative frequency",
-     col="grey50",
+     col="gold2",
      border="white")
 #add mean line with red (tomato3) color
 #and thickness of 3
@@ -196,7 +196,7 @@ hist(datW$TAVE[datW$siteN == 3],
      main = paste(levels(datW$NAME)[3]),
      xlab = "Average daily temperature (degrees C)", 
      ylab="Relative frequency",
-     col="grey50",
+     col="antiquewhite3",
      border="white")
 #add mean line with red (tomato3) color
 #and thickness of 3
@@ -222,7 +222,7 @@ hist(datW$TAVE[datW$siteN == 4],
      main = paste(levels(datW$NAME)[4]),
      xlab = "Average daily temperature (degrees C)", 
      ylab="Relative frequency",
-     col="grey50",
+     col="goldenrod3",
      border="white")
 #add mean line with red (tomato3) color
 #and thickness of 3
