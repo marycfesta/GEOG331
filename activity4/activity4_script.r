@@ -58,6 +58,12 @@ for ( i in 1:3 ){
 height <- data.frame(Species = c("virginica","setosa","versicolor"),
                      Height.cm = c(60,100,11.8))
 
+# iris left
+# height right
+# want to join height into iris (normalize petal measurements by height)
+iris2 <- left_join(iris,height,by="Species")
+# normalized petal width
+iris2$Petal.Width/iris2$Height.cm
 
 
 #####################################
@@ -67,13 +73,23 @@ height <- data.frame(Species = c("virginica","setosa","versicolor"),
 plot(iris$Sepal.Length,iris$Sepal.Width)
 
 #3a. now make the same plot in ggplot
-
+# aes is aesthetics
+# + means run the two functions simultaneously
+ggplot(data=iris, aes(Sepal.Length,Sepal.Width)) +
+  geom_point()
 
 #3b. make a scatter plot with ggplot and get rid of  busy grid lines
-
+# add arguments about the theme
+ggplot(data=iris, aes(Sepal.Length,Sepal.Width)) +
+  geom_point() +
+  theme_classic()
 
 #3c.make a scatter plot with ggplot and get rid of grid lines
 #and show species by color increasing the point size
+ggplot(data=iris, aes(Sepal.Length,Sepal.Width, color=Species)) +
+  geom_point(size=4) +
+  theme_classic()
+
 
 #####################################
 ##### Question: how did         #####
