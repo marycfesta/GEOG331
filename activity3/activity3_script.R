@@ -168,18 +168,94 @@ datW$air.tempQ2 <- ifelse(datW$precipitation  >= 2 & datW$lightning.acvitivy >0,
 
 ### QUESTION 6 ###
 # filter out suspect wind speed measurements
-# remove wind speeds less than 0 and greater than 1.5
+# remove wind speeds less than 0 and greater than 1
 datW$wind.speedQ1 <- ifelse(datW$wind.speed  < 0, NA,
-                          ifelse(datW$wind.speed > 1.5, NA, datW$wind.speed))
+                          ifelse(datW$wind.speed > 1, NA, datW$wind.speed))
 
 # test that the outcome was as expected
-# see if all below 0 or above 1.5 are NA?
-assert()
+# see if all below 0 or above 1 are NA?
+assert(length(datW$wind.speedQ1[!is.na(datW$wind.speedQ1[datW$wind.speed < 0])]) <= 0, "Values below 0 exist. Not successful.")
+assert(length(datW$wind.speedQ1[!is.na(datW$wind.speedQ1[datW$wind.speed > 1])]) <= 0, "Values above 1 exist. Not successful.")
 
 #make a plot with filled in points (using pch)
 #line lines
 plot(datW$DD, datW$wind.speedQ1, pch=19, type="b", xlab = "Day of Year",
      ylab="Wind Speed")
 
-
 # end q6
+
+### QUESTION 7 ###
+# plot soil moisture by day of year
+plot(datW$DD , datW$soil.moisture, xlab = "Day of Year", ylab = "Soil Moisture/Precipitation",
+     type="n")
+#plot soil moisture by day of year
+points(datW$DD, datW$soil.moisture,
+       col= "dark golden rod", pch=15)        
+
+# normalize air temp to match soil moisture
+# remove na values from moisture since it is missing some
+datW$precip.soil <- (max(datW$soil.moisture[!is.na(datW$soil.moisture)])/max(datW$precipitation)) * datW$precipitation
+
+#plot precipitation points only when there is precipitation     
+points(datW$DD[datW$precip.soil > 0], datW$precip.soil[datW$precip.soil > 0],
+       col= "navy", pch=19)
+
+# plot soil temperature by day of year
+plot(datW$DD , datW$soil.temp, xlab = "Day of Year", ylab = "Soil Temperature/Air Temperature",
+     type="n")
+#plot soil temp by day of year
+points(datW$DD, datW$soil.temp,
+       col= "tomato3", pch=15)        
+
+# normalize air temp to match soil temperature
+# remove na values in soil temperature as it is missing measurements
+datW$air.soil <- (max(datW$soil.temp[!is.na(datW$soil.temp)])/max(datW$air.temperature)) * datW$air.temperature
+
+#plot precipitation points only when there is precipitation     
+points(datW$DD, datW$air.soil,
+       col= "navy", pch=19)
+# end q7
+
+### QUESTION 8 ###
+# average air temp, wind speed, soil moisture, soil temp
+avg_air_temp <- mean(datW$air.temperature, na.rm=TRUE)
+avg_wind_speed <- mean(datW$wind.speed, na.rm=TRUE)
+avg_soil_moisture <- mean(datW$soil.moisture, na.rm=TRUE)
+avg_soil_temp <- mean(datW$soil.temp, na.rm=TRUE)
+
+# total precipitation
+total_prcp <- sum(datW$precipitation, na.rm=TRUE)
+
+# number of calculations that went into each
+length(datW$air.temperature[!is.na(datW$air.temperature)])
+length(datW$wind.speed[!is.na(datW$wind.speed)])
+length(datW$soil.moisture[!is.na(datW$soil.moisture)])
+length(datW$soil.temp[!is.na(datW$soil.temp)])
+length(datW$precipitation[!is.na(datW$precipitation)])
+
+
+
+# total precipitation
+# end q8
+
+### QUESTION 9 ###
+# put all in same window 
+par(mfrow=c(2,2))
+
+# soil moisture plot
+plot(datW$DD, datW$soil.moisture, pch=19, type="b", xlab = "Day of Year",
+     ylab="Soil Moisture")
+
+# air temperature plot
+plot(datW$DD, datW$air.temperature, pch=19, type="b", xlab = "Day of Year",
+     ylab="Air Temperature (Degrees C)")
+
+# soil temperature plot
+plot(datW$DD, datW$soil.temp, pch=19, type="b", xlab = "Day of Year",
+     ylab="Soil Temperature (Degrees C)")
+
+# precipitation plot
+plot(datW$DD, datW$precipitation, pch=19, type="b", xlab = "Day of Year",
+     ylab="Precipitation")
+
+# end q9
