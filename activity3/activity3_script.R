@@ -26,14 +26,23 @@ assert(length(a) == length(b), "error: unequal length")
 #read in the data file
 #skip the first 3 rows since there is additional column info
 #specify the the NA is designated differently
-datW <- read.csv("y:\\Students\\mfesta\\a03\\bewkes_weather.csv",
+# datW <- read.csv("y:\\Students\\mfesta\\a03\\bewkes_weather.csv",
+#                  na.strings=c("#N/A"), skip=3, header=FALSE)
+######## UNCOMMENT THIS
+
+datW <- read.csv("/Users/maryfesta/Documents/Colgate/Academics/Environmental Data Science/GEOG331/activity3/a03/bewkes_weather.csv",
                  na.strings=c("#N/A"), skip=3, header=FALSE)
 #preview data
 print(datW[1,])
 
 #get sensor info from file
 # this data table will contain all relevent units
-sensorInfo <-   read.csv("y:\\Students\\hkropp\\a03\\bewkes_weather.csv",
+
+######## UNCOMMENT THIS
+
+# sensorInfo <-   read.csv("y:\\Students\\mfesta\\a03\\bewkes_weather.csv",
+#                          na.strings=c("#N/A"), nrows=2)
+sensorInfo <-   read.csv("/Users/maryfesta/Documents/Colgate/Academics/Environmental Data Science/GEOG331/activity3/a03/bewkes_weather.csv",
                          na.strings=c("#N/A"), nrows=2)
 
 print(sensorInfo)
@@ -125,3 +134,52 @@ datW[datW$air.tempQ1 < 8,]
 
 #look at days with really high air temperature
 datW[datW$air.tempQ1 > 33,]  
+
+##### MEASUREMENTS OUTSIDE OF SENSOR CAPABILITIES #####
+
+#plot precipitation and lightning strikes on the same plot
+#normalize lighting strikes to match precipitation
+lightscale <- (max(datW$precipitation)/max(datW$lightning.acvitivy)) * datW$lightning.acvitivy
+#make the plot with precipitation and lightning activity marked
+#make it empty to start and add in features
+plot(datW$DD , datW$precipitation, xlab = "Day of Year", ylab = "Precipitation & lightning",
+     type="n")
+#plot precipitation points only when there is precipitation 
+#make the points semi-transparent
+points(datW$DD[datW$precipitation > 0], datW$precipitation[datW$precipitation > 0],
+       col= rgb(95/255,158/255,160/255,.5), pch=15)        
+
+#plot lightning points only when there is lightning     
+points(datW$DD[lightscale > 0], lightscale[lightscale > 0],
+       col= "tomato3", pch=19)
+
+### QUESTION 5 ###
+# test if the length of lightscale is the same as that of precipitation
+# if the same, graph is able to be plotted successfully
+assert(length(lightscale) == length(datW$precipitation), "length is not equal")
+assert(length(lightscale) == length(datW$lightning.acvitivy), "length is not equal")
+# end q5
+
+#filter out storms in wind and air temperature measurements
+# filter all values with lightning that coincides with rainfall greater than 2mm or only rainfall over 5 mm.    
+#create a new air temp column
+datW$air.tempQ2 <- ifelse(datW$precipitation  >= 2 & datW$lightning.acvitivy >0, NA,
+                          ifelse(datW$precipitation > 5, NA, datW$air.tempQ1))
+
+### QUESTION 6 ###
+# filter out suspect wind speed measurements
+# remove wind speeds less than 0 and greater than 1.5
+datW$wind.speedQ1 <- ifelse(datW$wind.speed  < 0, NA,
+                          ifelse(datW$wind.speed > 1.5, NA, datW$wind.speed))
+
+# test that the outcome was as expected
+# see if all below 0 or above 1.5 are NA?
+assert()
+
+#make a plot with filled in points (using pch)
+#line lines
+plot(datW$DD, datW$wind.speedQ1, pch=19, type="b", xlab = "Day of Year",
+     ylab="Wind Speed")
+
+
+# end q6
