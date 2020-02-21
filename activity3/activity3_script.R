@@ -26,24 +26,22 @@ assert(length(a) == length(b), "error: unequal length")
 #read in the data file
 #skip the first 3 rows since there is additional column info
 #specify the the NA is designated differently
-# datW <- read.csv("y:\\Students\\mfesta\\a03\\bewkes_weather.csv",
-#                  na.strings=c("#N/A"), skip=3, header=FALSE)
-######## UNCOMMENT THIS
-
-datW <- read.csv("/Users/maryfesta/Documents/Colgate/Academics/Environmental Data Science/GEOG331/activity3/a03/bewkes_weather.csv",
+datW <- read.csv("y:\\Students\\mfesta\\a03\\bewkes_weather.csv",
                  na.strings=c("#N/A"), skip=3, header=FALSE)
+# read in datW on personal laptop
+# datW <- read.csv("/Users/maryfesta/Documents/Colgate/Academics/Environmental Data Science/GEOG331/activity3/a03/bewkes_weather.csv",
+#                  na.strings=c("#N/A"), skip=3, header=FALSE)
+
 #preview data
 print(datW[1,])
 
 #get sensor info from file
 # this data table will contain all relevent units
-
-######## UNCOMMENT THIS
-
-# sensorInfo <-   read.csv("y:\\Students\\mfesta\\a03\\bewkes_weather.csv",
-#                          na.strings=c("#N/A"), nrows=2)
-sensorInfo <-   read.csv("/Users/maryfesta/Documents/Colgate/Academics/Environmental Data Science/GEOG331/activity3/a03/bewkes_weather.csv",
+sensorInfo <-   read.csv("y:\\Students\\mfesta\\a03\\bewkes_weather.csv",
                          na.strings=c("#N/A"), nrows=2)
+# read in data on personal laptop
+# sensorInfo <-   read.csv("/Users/maryfesta/Documents/Colgate/Academics/Environmental Data Science/GEOG331/activity3/a03/bewkes_weather.csv",
+#                          na.strings=c("#N/A"), nrows=2)
 
 print(sensorInfo)
 
