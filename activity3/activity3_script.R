@@ -204,7 +204,7 @@ plot(datW$DD , datW$soil.moisture, xlab = "Day of Year", ylab = "Soil Moisture/P
 points(datW$DD, datW$soil.moisture,
        col= "dark golden rod", pch=15)        
 
-# normalize air temp to match soil moisture
+# normalize precipitation to match soil moisture
 # remove na values from moisture since it is missing some
 datW$precip.soil <- (max(datW$soil.moisture[!is.na(datW$soil.moisture)])/max(datW$precipitation)) * datW$precipitation
 
