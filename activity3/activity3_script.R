@@ -167,20 +167,34 @@ datW$air.tempQ2 <- ifelse(datW$precipitation  >= 2 & datW$lightning.acvitivy >0,
                           ifelse(datW$precipitation > 5, NA, datW$air.tempQ1))
 
 ### QUESTION 6 ###
+
+#calculate the threshold for strong wind
+highWind <- qnorm(0.99,
+            mean(datW$wind.speed,na.rm=TRUE),
+            sd(datW$wind.speed,na.rm=TRUE))
+
+#calculate the threshold for high precipitation
+highPrecip <- qnorm(0.99,
+                  mean(datW$precipitation,na.rm=TRUE),
+                  sd(datW$precipitation,na.rm=TRUE))
+
 # filter out suspect wind speed measurements
-# remove wind speeds less than 0 and greater than 1
-datW$wind.speedQ1 <- ifelse(datW$wind.speed  < 0, NA,
-                          ifelse(datW$wind.speed > 1, NA, datW$wind.speed))
+# remove values with high precipitation and high wind speed
+datW$wind.speedQ1 <- ifelse(datW$precipitation  >= highPrecip & datW$wind.speed > highWind, NA, datW$wind.speed)
 
 # test that the outcome was as expected
 # see if all below 0 or above 1 are NA?
-assert(length(datW$wind.speedQ1[!is.na(datW$wind.speedQ1[datW$wind.speed < 0])]) <= 0, "Values below 0 exist. Not successful.")
-assert(length(datW$wind.speedQ1[!is.na(datW$wind.speedQ1[datW$wind.speed > 1])]) <= 0, "Values above 1 exist. Not successful.")
+assert(length(datW$wind.speedQ1[!is.na(datW$wind.speedQ1[datW$precipitation >= highPrecip & datW$wind.speed > highWind])]) <= 0, "Values with high wind and precipiation exist in the set")
+# assert(length(datW$wind.speedQ1[!is.na(datW$wind.speedQ1[datW$wind.speed > 1])]) <= 0, "Values above 1 exist. Not successful.")
 
 #make a plot with filled in points (using pch)
 #line lines
 plot(datW$DD, datW$wind.speedQ1, pch=19, type="b", xlab = "Day of Year",
-     ylab="Wind Speed")
+     ylab="Wind Speed - Filtered")
+
+# make a plot of wind speed with no filters for comparison
+plot(datW$DD, datW$wind.speed, pch=19, type="b", xlab = "Day of Year",
+     ylab="Wind Speed - Unfiltered")
 
 # end q6
 
@@ -233,9 +247,6 @@ length(datW$soil.moisture[!is.na(datW$soil.moisture)])
 length(datW$soil.temp[!is.na(datW$soil.temp)])
 length(datW$precipitation[!is.na(datW$precipitation)])
 
-
-
-# total precipitation
 # end q8
 
 ### QUESTION 9 ###
