@@ -80,9 +80,6 @@ str(datD)
 str(datP)
 # end q3
 
-#### QUESTION 4 ####
-# end q4
-
 ##### BASIC PLOT FORMATTING #####
 
 #basic formatting
@@ -238,8 +235,8 @@ doy17 <- datD$doy[datD$year==2017]
 #plot the 2017 data
 lines(doy17, discharge17, col="red")
 
-axis(1, seq(0,360, by=40), #tick intervals
-     lab=seq(0,360, by=40)) #tick labels
+axis(1, seq(0,365, by=31), #tick intervals
+     labels=c("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec")) #tick labels
 axis(2, seq(0,180, by=20),
      seq(0,180, by=20),
      las = 2)#show ticks at 90 degree angle
