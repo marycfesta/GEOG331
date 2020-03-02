@@ -56,15 +56,15 @@ datD$hour <- hour(timesD ) + (minute(timesD )/60)
 #get full decimal time
 datD$decDay <- datD$doy + (datD$hour/24)
 #calculate a decimal year, but account for leap year
-datD$decYear <- ifelse(leap_year(datD$year),datD$year + (datD$decDay/367),
-                       datD$year + (datD$decDay/366))
+datD$decYear <- ifelse(leap_year(datD$year),datD$year + ((datD$decDay-1)/366),
+                       datD$year + ((datD$decDay-1)/365))
 #calculate times for datP                       
 datP$hour <- hour(dateP ) + (minute(dateP )/60)
 #get full decimal time
 datP$decDay <- datP$doy + (datP$hour/24)
 #calculate a decimal year, but account for leap year
-datP$decYear <- ifelse(leap_year(datP$year),datP$year + (datP$decDay/367),
-                       datP$year + (datP$decDay/366))          
+datP$decYear <- ifelse(leap_year(datP$year),datP$year + ((datP$decDay-1)/366),
+                       datP$year + ((datP$decDay-1)/365))          
 
 #plot discharge
 plot(datD$decYear, datD$discharge, type="l", xlab="Year", ylab=expression(paste("Discharge ft"^"3 ","sec"^"-1")))
@@ -209,6 +209,9 @@ legend("topright", c("mean","1 standard deviation"), #legend items
 # change the x axis label to show each month instead of doy
 # make the 2017 line a different color
 
+#start new plot
+dev.new(width=8,height=8)
+
 month_nums <- month(datesD)
 
 #bigger margins
@@ -250,6 +253,29 @@ legend("topright", c("mean","1 standard deviation"), #legend items
 ##### MAKING A HYDROGRAPH #####
 
 #### QUESTION 7 ####
+
+#start new plot
+dev.new(width=8,height=8)
+
+#bigger margins
+par(mai=c(1,1,1,1))
+#make plot
+plot(datD$decYear,datD$discharge, 
+     type="l", 
+     xlab="Year", 
+     ylab=expression(paste("Discharge ft"^"3 ","sec"^"-1")),
+     lwd=2)
+
+# indicate days with 24 hours of precipitation measurements
+with24hrs <- aggregate(datP$doy, by=list(datP$doy, datP$year), FUN="length")
+
+# create a dataframe for days with 24 hours of precipitation measurements
+precip24hrs <- data.frame(with24hrs)
+# rename columns
+names(precip24hrs) <- c("doy", "year", "precipMeas")
+
+#calculate a decimal year, but account for leap year
+precip24hrs$decYear <- datP$decYear
 # end q7
 
 #subsest discharge and precipitation within range of interest
@@ -287,6 +313,10 @@ for(i in 1:nrow(hydroP)){
                 col=rgb(0.392, 0.584, 0.929,.2), border=NA)
 }
 
+#### QUESTION 8 ####
+
+# end q8
+
 ##### MAKING BOX PLOTS AND VIOLIN PLOTS #####
 
 library(ggplot2)
@@ -299,3 +329,28 @@ ggplot(data= datD, aes(yearPlot,discharge)) +
 #make a violin plot
 ggplot(data= datD, aes(yearPlot,discharge)) + 
         geom_violin()
+
+#### QUESTION 9 ####
+
+# violin plot for 2016
+#specify year as a factor
+dat16 <- data.frame(as.factor(datD$year)[datD$year==2016])
+dat16$y16 <- datD$year[datD$year==2016]
+dat16$discharge <- datD$discharge[datD$year==2016]
+
+#make a violin plot
+ggplot(data= dat16, aes(y16,discharge)) + 
+        geom_violin() + labs(x = "2016")
+
+
+# violin plot for 2017
+#specify year as a factor
+dat17 <- data.frame(as.factor(datD$year)[datD$year==2017])
+dat17$y17 <- datD$year[datD$year==2017]
+dat17$discharge <- datD$discharge[datD$year==2017]
+
+#make a violin plot
+ggplot(data= dat17, aes(y17,discharge)) + 
+        geom_violin() + labs(x = "2017")
+
+# end q9
