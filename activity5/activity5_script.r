@@ -249,13 +249,13 @@ legend("topright", c("mean","1 standard deviation","2017 data"), #legend items
 
 #### QUESTION 6 ####
 
-# calculate standard deviation for 2017
-sd17 <- aggregate(discharge17, by=list(doy17), FUN="sd")
-colnames(sd17) <- c("doy","dailySD")
+# # calculate standard deviation for 2017
+# sd17 <- aggregate(discharge17, by=list(doy17), FUN="sd")
+# colnames(sd17) <- c("doy","dailySD")
 
 # calculate mean and standard deviation for 2017
-sd2017 <- sd(discharge17)
 mean2017 <- mean(discharge17)
+sd2017 <- sd(discharge17)
 
 # end q6
 
@@ -289,6 +289,7 @@ precip24hrs$decYear <- ifelse(leap_year(precip24hrs$year),precip24hrs$year + ((p
 
 # what to put for discharge here?
 points(precip24hrs$decYear[precip24hrs$precipMeas == 24], datP$discharge[precip24hrs$decYear], col="red")
+
 # end q7
 
 #subsest discharge and precipitation within range of interest
@@ -328,6 +329,41 @@ for(i in 1:nrow(hydroP)){
 
 #### QUESTION 8 ####
 
+#subsest discharge and precipitation within range of interest
+hydroD <- datD[datD$doy >= 248 & datD$doy < 250 & datD$year == 2011,]
+hydroP <- datP[datP$doy >= 248 & datP$doy < 250 & datP$year == 2011,]
+
+min(hydroD$discharge)
+
+#get minimum and maximum range of discharge to plot
+#go outside of the range so that it's easy to see high/low values
+#floor rounds down the integer
+yl <- floor(min(hydroD$discharge))-1
+#celing rounds up to the integer
+yh <- ceiling(max(hydroD$discharge))+1
+#minimum and maximum range of precipitation to plot
+pl <- 0
+pm <-  ceiling(max(hydroP$HPCP))+.5
+#scale precipitation to fit on the 
+hydroP$pscale <- (((yh-yl)/(pm-pl)) * hydroP$HPCP) + yl
+
+par(mai=c(1,1,1,1))
+#make plot of discharge
+plot(hydroD$decDay,
+     hydroD$discharge, 
+     type="l", 
+     ylim=c(yl,yh), 
+     lwd=2,
+     xlab="Day of year", 
+     ylab=expression(paste("Discharge ft"^"3 ","sec"^"-1")))
+#add bars to indicate precipitation 
+for(i in 1:nrow(hydroP)){
+        polygon(c(hydroP$decDay[i]-0.017,hydroP$decDay[i]-0.017,
+                  hydroP$decDay[i]+0.017,hydroP$decDay[i]+0.017),
+                c(yl,hydroP$pscale[i],hydroP$pscale[i],yl),
+                col=rgb(0.392, 0.584, 0.929,.2), border=NA)
+}
+
 # end q8
 
 ##### MAKING BOX PLOTS AND VIOLIN PLOTS #####
@@ -345,32 +381,36 @@ ggplot(data= datD, aes(yearPlot,discharge)) +
 
 #### QUESTION 9 ####
 
-# violin plot for 2016
-#specify year as a factor
-dat16 <- data.frame(as.factor(datD$year)[datD$year==2016])
-dat16$y16 <- datD$year[datD$year==2016]
-dat16$discharge <- datD$discharge[datD$year==2016]
-
-#make a violin plot
-ggplot(data= dat16, aes(y16,discharge)) + 
-        geom_violin() + labs(x = "2016")
-
 # meteorological seasons
 # spring: mar 1 - may 31 (60 - 151)
 # summer: jun 1 - aug 31 (152 - 243)
 # autumn: sep 1 - nov 30 (244 - 334)
 # winter: dec 1 - feb 28 (335 - 59)
 # add one to all for leap year
-datD$season <- ifelse()
+datD$season <- ifelse(datD$doy >= 60 & datD$doy <= 151, "spring",
+                      ifelse(datD$doy >= 152 & datD$doy <= 243, "summer",
+                             ifelse(datD$doy >= 244 & datD$doy <= 334, "autumn", "winter") ) )
+
+# violin plot for 2016
+#specify year as a factor
+dat16 <- data.frame(as.factor(datD$year)[datD$year==2016])
+# dat16$y16 <- datD$year[datD$year==2016]
+dat16$seasons <- as.factor(datD$season[datD$year==2016])
+dat16$discharge <- datD$discharge[datD$year==2016]
+
+#make a violin plot
+ggplot(data= dat16, aes(seasons,discharge)) + 
+        geom_violin() + labs(x = "2016")
 
 # violin plot for 2017
 #specify year as a factor
 dat17 <- data.frame(as.factor(datD$year)[datD$year==2017])
-dat17$y17 <- datD$year[datD$year==2017]
+# dat17$y17 <- datD$year[datD$year==2017]
+dat17$seasons <- as.factor(datD$season[datD$year==2017])
 dat17$discharge <- datD$discharge[datD$year==2017]
 
 #make a violin plot
-ggplot(data= dat17, aes(y17,discharge)) + 
+ggplot(data= dat17, aes(seasons,discharge)) + 
         geom_violin() + labs(x = "2017")
 
 # end q9
