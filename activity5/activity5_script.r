@@ -11,21 +11,21 @@
 library(lubridate)
 
 #read in streamflow data
-# datH <- read.csv("y:\\Students\\mfesta\\a05\\stream_flow_data.csv",
-#                  na.strings = c("Eqp"))
-# CHANGE BACK BEFORE SUBMIT
-datH <- read.csv("/Users/maryfesta/Documents/Colgate/Academics/Environmental Data Science/GEOG331/activity5/a05/stream_flow_data.csv",
+datH <- read.csv("y:\\Students\\mfesta\\a05\\stream_flow_data.csv",
                  na.strings = c("Eqp"))
+# read files on laptop
+# datH <- read.csv("/Users/maryfesta/Documents/Colgate/Academics/Environmental Data Science/GEOG331/activity5/a05/stream_flow_data.csv",
+#                  na.strings = c("Eqp"))
 
 
 head(datH)         
 
-# #read in precipitation data
-# #hourly precipitation is in mm
-# datP <- read.csv("y:\\Students\\mfesta\\a05\\2049867.csv")   
+#read in precipitation data
+#hourly precipitation is in mm
+datP <- read.csv("y:\\Students\\mfesta\\a05\\2049867.csv")
 
-# CHANGE BACK BEFORE SUBMIT
-datP <- read.csv("/Users/maryfesta/Documents/Colgate/Academics/Environmental Data Science/GEOG331/activity5/a05/2049867.csv")   
+# read files on laptop
+# datP <- read.csv("/Users/maryfesta/Documents/Colgate/Academics/Environmental Data Science/GEOG331/activity5/a05/2049867.csv")   
 
 head(datP)
 
@@ -249,10 +249,6 @@ legend("topright", c("mean","1 standard deviation","2017 data"), #legend items
 
 #### QUESTION 6 ####
 
-# # calculate standard deviation for 2017
-# sd17 <- aggregate(discharge17, by=list(doy17), FUN="sd")
-# colnames(sd17) <- c("doy","dailySD")
-
 # calculate mean and standard deviation for 2017
 mean2017 <- mean(discharge17)
 sd2017 <- sd(discharge17)
@@ -295,6 +291,12 @@ y_coords <- rep(350, length(precip24hrs$decYear[precip24hrs$precipMeas == 24]))
 # plot the points with 24 hours of precipitation data
 points(precip24hrs$decYear[precip24hrs$precipMeas == 24], y_coords, col="red")
 
+legend("topright", c("mean","days with 24 hours of precipitation data"), #legend items
+       lwd=c(2,NA),#lines
+       col=c("black","red"),#colors
+       pch=c(NA,1),#symbols
+       bty="n")#no legend border
+
 # end q7
 
 
@@ -323,7 +325,7 @@ plot(hydroD$decDay,
      type="l", 
      ylim=c(yl,yh), 
      lwd=2,
-     xlab="Day of year", 
+     xlab="Day of year (2011)", 
      ylab=expression(paste("Discharge ft"^"3 ","sec"^"-1")))
 #add bars to indicate precipitation 
 for(i in 1:nrow(hydroP)){
@@ -335,9 +337,10 @@ for(i in 1:nrow(hydroP)){
 
 #### QUESTION 8 ####
 
-#subsest discharge and precipitation within range of interest
-hydroD <- datD[datD$doy >= 248 & datD$doy < 250 & datD$year == 2011,]
-hydroP <- datP[datP$doy >= 248 & datP$doy < 250 & datP$year == 2011,]
+#subset discharge and precipitation within range of interest
+# there are 24 hours of precipitation measurements for doy 48, 49, and 50 of 2010
+hydroD <- datD[datD$doy >= 48 & datD$doy < 50 & datD$year == 2010,]
+hydroP <- datP[datP$doy >= 48 & datP$doy < 50 & datP$year == 2010,]
 
 min(hydroD$discharge)
 
@@ -360,7 +363,7 @@ plot(hydroD$decDay,
      type="l", 
      ylim=c(yl,yh), 
      lwd=2,
-     xlab="Day of year", 
+     xlab="Day of year (2010)", 
      ylab=expression(paste("Discharge ft"^"3 ","sec"^"-1")))
 #add bars to indicate precipitation 
 for(i in 1:nrow(hydroP)){
@@ -404,7 +407,7 @@ dat16$discharge <- datD$discharge[datD$year==2016]
 
 #make a violin plot
 ggplot(data= dat16, aes(seasons,discharge)) + 
-        geom_violin() + labs(x = "2016")
+        geom_violin() + labs(x = "Seasons, 2016", y = expression(paste("Discharge ft"^"3 ","sec"^"-1")))
 
 # violin plot for 2017
 #specify year as a factor
@@ -414,6 +417,6 @@ dat17$discharge <- datD$discharge[datD$year==2017]
 
 #make a violin plot
 ggplot(data= dat17, aes(seasons,discharge)) + 
-        geom_violin() + labs(x = "2017")
+        geom_violin() + labs(x = "Seasons, 2017", y = expression(paste("Discharge ft"^"3 ","sec"^"-1")))
 
 # end q9
