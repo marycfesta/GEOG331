@@ -287,10 +287,16 @@ names(precip24hrs) <- c("doy", "year", "precipMeas")
 precip24hrs$decYear <- ifelse(leap_year(precip24hrs$year),precip24hrs$year + ((precip24hrs$doy-1)/366),
                        precip24hrs$year + ((precip24hrs$doy-1)/365))          
 
-# what to put for discharge here?
-points(precip24hrs$decYear[precip24hrs$precipMeas == 24], datP$discharge[precip24hrs$decYear], col="red")
+# function rep - e.g. rep(350, length(x input)) to get y coordinates
+# generates a vector of 350, for every x observation you're putting a value in at 350
+# indicating when days have a full observation
+y_coords <- rep(350, length(precip24hrs$decYear[precip24hrs$precipMeas == 24]))
+
+# plot the points with 24 hours of precipitation data
+points(precip24hrs$decYear[precip24hrs$precipMeas == 24], y_coords, col="red")
 
 # end q7
+
 
 #subsest discharge and precipitation within range of interest
 hydroD <- datD[datD$doy >= 248 & datD$doy < 250 & datD$year == 2011,]
@@ -386,7 +392,6 @@ ggplot(data= datD, aes(yearPlot,discharge)) +
 # summer: jun 1 - aug 31 (152 - 243)
 # autumn: sep 1 - nov 30 (244 - 334)
 # winter: dec 1 - feb 28 (335 - 59)
-# add one to all for leap year
 datD$season <- ifelse(datD$doy >= 60 & datD$doy <= 151, "spring",
                       ifelse(datD$doy >= 152 & datD$doy <= 243, "summer",
                              ifelse(datD$doy >= 244 & datD$doy <= 334, "autumn", "winter") ) )
@@ -394,7 +399,6 @@ datD$season <- ifelse(datD$doy >= 60 & datD$doy <= 151, "spring",
 # violin plot for 2016
 #specify year as a factor
 dat16 <- data.frame(as.factor(datD$year)[datD$year==2016])
-# dat16$y16 <- datD$year[datD$year==2016]
 dat16$seasons <- as.factor(datD$season[datD$year==2016])
 dat16$discharge <- datD$discharge[datD$year==2016]
 
@@ -405,7 +409,6 @@ ggplot(data= dat16, aes(seasons,discharge)) +
 # violin plot for 2017
 #specify year as a factor
 dat17 <- data.frame(as.factor(datD$year)[datD$year==2017])
-# dat17$y17 <- datD$year[datD$year==2017]
 dat17$seasons <- as.factor(datD$season[datD$year==2017])
 dat17$discharge <- datD$discharge[datD$year==2017]
 
