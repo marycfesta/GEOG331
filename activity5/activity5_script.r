@@ -235,17 +235,29 @@ doy17 <- datD$doy[datD$year==2017]
 #plot the 2017 data
 lines(doy17, discharge17, col="red")
 
-axis(1, seq(0,365, by=31), #tick intervals
+axis(1, at=c(1,32,60,91,121,152,182,213,244,274,305,335), #tick intervals
      labels=c("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec")) #tick labels
 axis(2, seq(0,180, by=20),
      seq(0,180, by=20),
      las = 2)#show ticks at 90 degree angle
-legend("topright", c("mean","1 standard deviation"), #legend items
-       lwd=c(2,NA),#lines
-       col=c("black",rgb(0.392, 0.584, 0.929,.2)),#colors
-       pch=c(NA,15),#symbols
+legend("topright", c("mean","1 standard deviation","2017 data"), #legend items
+       lwd=c(2,NA,2),#lines
+       col=c("black",rgb(0.392, 0.584, 0.929,.2),"red"),#colors
+       pch=c(NA,15,NA),#symbols
        bty="n")#no legend border
 # end q5
+
+#### QUESTION 6 ####
+
+# calculate standard deviation for 2017
+sd17 <- aggregate(discharge17, by=list(doy17), FUN="sd")
+colnames(sd17) <- c("doy","dailySD")
+
+# calculate mean and standard deviation for 2017
+sd2017 <- sd(discharge17)
+mean2017 <- mean(discharge17)
+
+# end q6
 
 ##### MAKING A HYDROGRAPH #####
 
@@ -272,7 +284,11 @@ precip24hrs <- data.frame(with24hrs)
 names(precip24hrs) <- c("doy", "year", "precipMeas")
 
 #calculate a decimal year, but account for leap year
-precip24hrs$decYear <- datP$decYear
+precip24hrs$decYear <- ifelse(leap_year(precip24hrs$year),precip24hrs$year + ((precip24hrs$doy-1)/366),
+                       precip24hrs$year + ((precip24hrs$doy-1)/365))          
+
+# what to put for discharge here?
+points(precip24hrs$decYear[precip24hrs$precipMeas == 24], datP$discharge[precip24hrs$decYear], col="red")
 # end q7
 
 #subsest discharge and precipitation within range of interest
@@ -339,6 +355,13 @@ dat16$discharge <- datD$discharge[datD$year==2016]
 ggplot(data= dat16, aes(y16,discharge)) + 
         geom_violin() + labs(x = "2016")
 
+# meteorological seasons
+# spring: mar 1 - may 31 (60 - 151)
+# summer: jun 1 - aug 31 (152 - 243)
+# autumn: sep 1 - nov 30 (244 - 334)
+# winter: dec 1 - feb 28 (335 - 59)
+# add one to all for leap year
+datD$season <- ifelse()
 
 # violin plot for 2017
 #specify year as a factor
