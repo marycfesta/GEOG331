@@ -1,7 +1,7 @@
 ###### SET UP SPATIAL PACKAGES ######
 
 # install packages
-install.packages(c("raster","sp","rgdal","rgeos","plyr"))
+# install.packages(c("raster","sp","rgdal","rgeos","plyr"))
 
 # load packages
 library(raster)
@@ -140,8 +140,8 @@ g2015p <- spTransform(g2015,NDVIraster[[1]]@crs)
 
 #### QUESTION 4 ####
 par(mfrow=c(1,1), mai=c(1,1,1,1))
-plot(NDVIraster[[13]], axes=TRUE)
-plot(g2015p, border="black", add=TRUE)
+plot(NDVIraster[[13]], axes=FALSE)
+plot(g2015p, add=TRUE, col=NA, border="black")
 # end q4
 
 #calculate area for all polygons
@@ -176,8 +176,10 @@ for(i in 2:39){
 
 #### QUESTION 5 ####
 
+# calculate % change between 1966 and 2015
 # create new column with percent change in these areas to same
 # dataframe that those areas are in
+
 
 # end q5
 
