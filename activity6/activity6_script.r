@@ -1,7 +1,7 @@
 ###### SET UP SPATIAL PACKAGES ######
 
 # install packages
-#install.packages(c("raster","sp","rgdal","rgeos","plyr"))
+install.packages(c("raster","sp","rgdal","rgeos","plyr"))
 
 # load packages
 library(raster)
@@ -14,7 +14,8 @@ library(plyr)
 
 #read in shapefiles
 #readOGR in rgdal does this
-g1966 <- readOGR("Y:\\Students\\mfesta\\a06\\GNPglaciers\\GNPglaciers_1966.shp")
+# g1966 <- readOGR("Y:\\Students\\mfesta\\a06\\GNPglaciers\\GNPglaciers_1966.shp")
+g1966 <- readOGR("/Users/maryfesta/Documents/Colgate/Academics/Environmental Data Science/GEOG331/activity6/a06/GNPglaciers/GNPglaciers_1966.shp")
 
 #let's investigate this data
 plot(g1966, col="lightblue", axes=TRUE)
@@ -27,9 +28,13 @@ g1966@polygons[[1]]@Polygons
 g1966@proj4string
 
 #read in shapefiles
-g1998 <- readOGR("Y:\\Students\\mfesta\\a06\\GNPglaciers\\GNPglaciers_1998.shp")
-g2005 <- readOGR("Y:\\Students\\mfesta\\a06\\GNPglaciers\\GNPglaciers_2005.shp")
-g2015 <- readOGR("Y:\\Students\\mfesta\\a06\\GNPglaciers\\GNPglaciers_2015.shp")
+# g1998 <- readOGR("Y:\\Students\\mfesta\\a06\\GNPglaciers\\GNPglaciers_1998.shp")
+# g2005 <- readOGR("Y:\\Students\\mfesta\\a06\\GNPglaciers\\GNPglaciers_2005.shp")
+# g2015 <- readOGR("Y:\\Students\\mfesta\\a06\\GNPglaciers\\GNPglaciers_2015.shp")
+
+g1998 <- readOGR("/Users/maryfesta/Documents/Colgate/Academics/Environmental Data Science/GEOG331/activity6/a06/GNPglaciers/GNPglaciers_1998.shp")
+g2005 <- readOGR("/Users/maryfesta/Documents/Colgate/Academics/Environmental Data Science/GEOG331/activity6/a06/GNPglaciers/GNPglaciers_2005.shp")
+g2015 <- readOGR("/Users/maryfesta/Documents/Colgate/Academics/Environmental Data Science/GEOG331/activity6/a06/GNPglaciers/GNPglaciers_2015.shp")
 
 #investigate format of data
 str(g2015)
@@ -62,9 +67,14 @@ g2015@data$GLACNAME <- ifelse(g2015@data$GLACNAME == "North Swiftcurrent Glacier
 #### MAPPING SATELLITE IMAGERY ####
 
 #read in rgb imagery from landsat
-redL <- raster("Y:\\Students\\mfesta\\a06\\glacier_09_05_14\\l08_red.tif")
-greenL <- raster("Y:\\Students\\mfesta\\a06\\glacier_09_05_14\\l08_green.tif")
-blueL <- raster("Y:\\Students\\mfesta\\a06\\glacier_09_05_14\\l08_blue.tif")
+# redL <- raster("Y:\\Students\\mfesta\\a06\\glacier_09_05_14\\l08_red.tif")
+# greenL <- raster("Y:\\Students\\mfesta\\a06\\glacier_09_05_14\\l08_green.tif")
+# blueL <- raster("Y:\\Students\\mfesta\\a06\\glacier_09_05_14\\l08_blue.tif")
+
+redL <- raster("/Users/maryfesta/Documents/Colgate/Academics/Environmental Data Science/GEOG331/activity6/a06/glacier_09_05_14/l08_red.tif")
+greenL <- raster("/Users/maryfesta/Documents/Colgate/Academics/Environmental Data Science/GEOG331/activity6/a06/glacier_09_05_14/l08_green.tif")
+blueL <- raster("/Users/maryfesta/Documents/Colgate/Academics/Environmental Data Science/GEOG331/activity6/a06/glacier_09_05_14/l08_blue.tif")
+
 
 #check coordinate system
 redL@crs
@@ -98,7 +108,8 @@ ndviYear <- seq(2003,2016)
 #read all files into a list
 NDVIraster <- list() 
 for(i in 1:length(ndviYear)){
-  NDVIraster[[i]] <- raster(paste0("Y:\\Students\\hkropp\\a06\\NDVI\\NDVI_",ndviYear[i],".tif"))
+  # NDVIraster[[i]] <- raster(paste0("Y:\\Students\\hkropp\\a06\\NDVI\\NDVI_",ndviYear[i],".tif"))
+  NDVIraster[[i]] <- raster(paste0("/Users/maryfesta/Documents/Colgate/Academics/Environmental Data Science/GEOG331/activity6/a06/NDVI/NDVI_",ndviYear[i],".tif"))
   
 }
 
