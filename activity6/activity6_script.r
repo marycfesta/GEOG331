@@ -179,8 +179,11 @@ for(i in 2:39){
 # calculate % change between 1966 and 2015
 # create new column with percent change in these areas to same
 # dataframe that those areas are in
+area1966 <- g1966p@data$a1966m.sq
+area2015 <- g2015p@data$a2015m.sq
+g2015p@data$percentChange <- (abs(area2015 - area1966) / area1966)*100
 
-
+spplot(g2015p, "percentChange")
 # end q5
 
 
