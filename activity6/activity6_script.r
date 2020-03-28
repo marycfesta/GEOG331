@@ -186,8 +186,19 @@ g2015p@data$percentChange <- (abs(area2015 - area1966) / area1966)*100
 spplot(g2015p, "percentChange")
 # end q5
 
+#make a polygon that shows the difference in glaciers between 2015 and 1966
+diffPoly <- gDifference(g1966p, g2015p)
+plot(diffPoly)
 
+#plot with NDVI
+plot(NDVIraster[[13]], axes=FALSE, box=FALSE)
+plot(diffPoly,col="black", border=NA,add=TRUE)
 
+#### QUESTION 6 ####
 
+# find the glacier with the largest % loss
+# make a map that best displays the glacial extent for all years for that glacier with the highest % loss
 
+# add a map title that includes the % loss and glacier name
 
+# end q6
