@@ -261,3 +261,14 @@ glacRaster <- rasterize(g1966p, NDVIraster[[1]], field=g1966p@data$GLACNAME, bac
 #subtract buffer from original glacier
 glacZones <- buffRaster - glacRaster
 plot(glacZones)
+
+meanChange <- zonal(NDVIfit, #NDVI function to summarize
+                    glacZones,#raster with zones
+                    "mean")#function to apply
+head(meanChange)
+
+#### QUESTION 9 ####
+
+
+
+# end q9
