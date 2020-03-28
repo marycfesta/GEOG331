@@ -243,3 +243,21 @@ fun <- function(x) {
 NDVIfit <- calc(NDVIstack,fun)
 #plot the change in NDVI
 plot(NDVIfit, axes=FALSE)
+
+#buffer glaciers
+glacier500m <- gBuffer(g1966p,#data to buffer
+                       byid=TRUE,#keeps original shape id 
+                       width=500)#width in coordinate system units
+
+#convert to a raster
+buffRaster <- rasterize(glacier500m,#vector to convert to raster
+                        NDVIraster[[1]], #raster to match cells and extent
+                        field=glacier500m@data$GLACNAME, #field to convert to raster data
+                        background=0)#background value for missing data
+plot(buffRaster)
+
+#rasterize gralciers
+glacRaster <- rasterize(g1966p, NDVIraster[[1]], field=g1966p@data$GLACNAME, background=0)
+#subtract buffer from original glacier
+glacZones <- buffRaster - glacRaster
+plot(glacZones)
