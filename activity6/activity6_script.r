@@ -196,9 +196,50 @@ plot(diffPoly,col="black", border=NA,add=TRUE)
 
 #### QUESTION 6 ####
 
-# find the glacier with the largest % loss
-# make a map that best displays the glacial extent for all years for that glacier with the highest % loss
+# calculate % loss (same as before but don't take absolute value)
+g2015p@data$percentLoss <- ((area1966 - area2015) / area1966)*100
+# find the highest % loss
+highestLoss <- max(g2015p@data$percentLoss)
+# find the glacier with this highest % loss
+highestLossName <- g2015p@data$GLACNAME[g2015p@data$percentLoss == highestLoss]
 
+# make a map that best displays the glacial extent for all years for that glacier with the highest % loss
 # add a map title that includes the % loss and glacier name
 
+
 # end q6
+
+##### RASTER DATA ANALYSIS: DOES MORE VEGETATION GROW WITH GLACIAL RETREAT? #####
+
+#extract NDVI values
+NDVIdiff <- list()
+meanDiff <- numeric(0)
+#loop through all NDVI years
+for(i in 1:length(ndviYear)){
+  #get raster values in the difference polygon
+  NDVIdiff[[i]] <- extract(NDVIraster[[i]],diffPoly)[[1]]
+  #calculate the mean of the NDVI values
+  meanDiff[i] <- mean(NDVIdiff[[i]], na.rm=TRUE)
+}
+plot(ndviYear, meanDiff, type="b",
+     xlab= "Year",
+     ylab="Average NDVI (unitless)",
+     pch=19)
+
+#designate that NDVIraster list is a stack
+NDVIstack <- stack(NDVIraster)
+#set up lm function to apply to every cell
+#where x is the value of a cell
+#need to first skip NA values (like lakes)
+#if NA is missing in first raster, it is missing in all
+#so we can tell R to assign an NA rather than fitting the function
+timeT <- ndviYear
+fun <- function(x) {
+  if(is.na(x[1])){
+    NA}else{
+      #fit a regression and extract a slope
+      lm(x ~ timeT)$coefficients[2] }}
+#apply the slope function to the rasters
+NDVIfit <- calc(NDVIstack,fun)
+#plot the change in NDVI
+plot(NDVIfit, axes=FALSE)
