@@ -181,7 +181,7 @@ for(i in 2:39){
 # dataframe that those areas are in
 area1966 <- g1966p@data$a1966m.sq
 area2015 <- g2015p@data$a2015m.sq
-g2015p@data$percentChange <- (abs(area2015 - area1966) / area1966)*100
+g2015p@data$percentChange <- ((area2015 - area1966) / abs(area1966))*100
 
 spplot(g2015p, "percentChange")
 # end q5
@@ -196,10 +196,8 @@ plot(diffPoly,col="black", border=NA,add=TRUE)
 
 #### QUESTION 6 ####
 
-# calculate % loss (same as before but don't take absolute value)
-g2015p@data$percentLoss <- ((area1966 - area2015) / area1966)*100
-# find the highest % loss
-highestLoss <- max(g2015p@data$percentLoss)
+# find the highest % loss (most negative percent change)
+highestLoss <- min(g2015p@data$percentChange)
 # find the glacier with this highest % loss
 highestLossName <- g2015p@data$GLACNAME[g2015p@data$percentLoss == highestLoss]
 
