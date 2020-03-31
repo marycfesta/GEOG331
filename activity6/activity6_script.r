@@ -199,10 +199,27 @@ plot(diffPoly,col="black", border=NA,add=TRUE)
 # find the highest % loss (most negative percent change)
 highestLoss <- min(g2015p@data$percentChange)
 # find the glacier with this highest % loss
-highestLossName <- g2015p@data$GLACNAME[g2015p@data$percentLoss == highestLoss]
+highestLoss2015 <- subset(g2015p, g2015p$percentChange == highestLoss)
+# highestLossName <- g2015p@data$GLACNAME[g2015p@data$percentLoss == highestLoss]
+highestLossName <- highestLoss2015$GLACNAME
+
+# subset remaining years with the highest loss glacier
+highestLoss1966 <- subset(g1966p, g1966p$GLACNAME == highestLossName)
+highestLoss1998 <- subset(g1998p, g1998p$GLACNAME == highestLossName)
+highestLoss2005 <- subset(g2005p, g2005p$GLACNAME == highestLossName)
 
 # make a map that best displays the glacial extent for all years for that glacier with the highest % loss
 # add a map title that includes the % loss and glacier name
+par(mai = c(1,1,1,1))
+plot(NDVIraster[[13]], axes=FALSE, box=FALSE, xlim=c(-80250,-78700), ylim=c(106700,107400))
+plot(highestLoss2015, col=NA, border="black", add=TRUE)
+plot(highestLoss2005, col=NA, border="slateblue3", add=TRUE)
+plot(highestLoss1998, col=NA, border="steelblue2", add=TRUE)
+plot(highestLoss1966, col=NA, border="coral2", add=TRUE)
+title("Boulder Glacier - 84.72% Loss")
+legend("bottomleft", box.lty=0, lty=1,
+       legend=c("1966","1998","2005","2015"),
+       col=c("coral2","steelblue2","slateblue3","black"))
 
 
 # end q6
@@ -275,3 +292,24 @@ g2015p@data$meanChange <- meanChangeNoZero[,2]
 spplot(g2015p, "meanChange")
 
 # end q9
+
+#### QUESTION 11 ####
+
+# make a raster dataset for the average maximum NDVI across all years
+avgNDVIraster <- calc(NDVIstack, mean)
+plot(avgNDVIraster, axes=FALSE)
+
+# assign colors to each glacier based on glacier size
+summary(area2015) # get quartiles
+g2015p@data$NDVIcol <- ifelse(g2015p@data$a2015m.sq <= 80653,"#f2f0f7",
+                              ifelse(g2015p@data$a2015m.sq <= 218317,"#cbc9e2",
+                                     ifelse(g2015p@data$a2015m.sq <= 503913,"#9e9ac8","#6a51a3")))
+# plot the glaciers on top of the NDVI
+plot(g2015p, add=TRUE, col=paste(g2015p@data$NDVIcol),border=FALSE)
+# add a title and legend
+title("Average Maximum NDVI and Glacier Size")
+legend("bottomleft", box.lty=0, lty=1, lwd=5,
+       legend=c("22084-80653","80654-218317","80653-503913","503914-1656043"),
+       col=c("#f2f0f7","#cbc9e2","#9e9ac8","#6a51a3"))
+
+# end q11
