@@ -267,6 +267,11 @@ head(meanChange)
 
 #### QUESTION 9 ####
 
-
+# remove the no glacier zone
+meanChangeNoZero <- meanChange[-1,]
+# add mean change to the 2015 glaciers
+g2015p@data$meanChange <- meanChangeNoZero[,2]
+# plot the mean change within the 2015 glacier polygons
+spplot(g2015p, "meanChange")
 
 # end q9
