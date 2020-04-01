@@ -301,15 +301,15 @@ plot(avgNDVIraster, axes=FALSE)
 
 # assign colors to each glacier based on glacier size
 summary(area2015) # get quartiles
-g2015p@data$NDVIcol <- ifelse(g2015p@data$a2015m.sq <= 80653,"#deepskyblue4",
-                              ifelse(g2015p@data$a2015m.sq <= 218317,"#deepskyblue1",
-                                     ifelse(g2015p@data$a2015m.sq <= 503913,"#darkorchid1","#darkorchid4")))
+g2015p@data$NDVIcol <- ifelse(g2015p@data$a2015m.sq <= 80653,"deepskyblue4",
+                              ifelse(g2015p@data$a2015m.sq <= 218317,"deepskyblue1",
+                                     ifelse(g2015p@data$a2015m.sq <= 503913,"darkorchid1","darkorchid4")))
 # plot the glaciers on top of the NDVI
 plot(g2015p, add=TRUE, col=paste(g2015p@data$NDVIcol),border=FALSE)
 # add a title and legend
 title("Average Maximum NDVI and Glacier Size")
 legend("bottomleft", box.lty=0, lty=1, lwd=5,
        legend=c("22084-80653","80654-218317","80653-503913","503914-1656043"),
-       col=c("#deepskyblue4","#deepskyblue1","#darkorchid1","#darkorchid4"))
+       col=c("deepskyblue4","deepskyblue1","darkorchid1","darkorchid4"))
 
 # end q11
